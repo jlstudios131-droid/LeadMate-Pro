@@ -1,0 +1,14 @@
+// backend/routes/leads.js
+import express from 'express';
+import { createLead, getLeads, updateLead, deleteLead } from '../controllers/leadsController.js';
+import { authenticate } from './middleware.js';
+
+const router = express.Router();
+router.use(authenticate);
+
+router.post('/', createLead);
+router.get('/', getLeads);
+router.put('/:id', updateLead);
+router.delete('/:id', deleteLead);
+
+export default router;
