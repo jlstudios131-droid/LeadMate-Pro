@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api'; // Mude para seu backend deployado
+// URL final do backend com /api
+const API_URL = 'https://lead-mate-pro.vercel.app/api';
 
 const apiClient = axios.create({
   baseURL: API_URL,
