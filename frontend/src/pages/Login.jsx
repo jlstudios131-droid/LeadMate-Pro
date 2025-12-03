@@ -11,8 +11,10 @@ const Login = () => {
     try {
       const res = await apiClient.post('/auth/login', { email, password });
       const { token } = res.data;
+
       localStorage.setItem('token', token);
       setAuthToken(token);
+
       navigate('/dashboard');
     } catch (err) {
       console.error('Login failed', err);
@@ -47,6 +49,17 @@ const Login = () => {
         >
           Login
         </button>
+
+        {/* 🔥 Botão de signup correto para SPA */}
+        <p className="text-center text-sm mt-4">
+          Ainda não tens conta?{' '}
+          <button
+            onClick={() => navigate('/signup')}
+            className="text-blue-600 underline"
+          >
+            Criar conta
+          </button>
+        </p>
       </div>
     </div>
   );
