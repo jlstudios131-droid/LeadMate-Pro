@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient, { setAuthToken } from '../api/apiClient.js';
-import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -40,7 +39,7 @@ const Login = () => {
 
         {/* Input Email */}
         <div className="relative mb-4">
-          <HiOutlineMail className="absolute top-3 left-3 text-gray-400" size={20} />
+          <span className="absolute top-3 left-3 text-gray-400 text-xl">📧</span>
           <input
             type="email"
             placeholder="Email"
@@ -52,7 +51,7 @@ const Login = () => {
 
         {/* Input Password */}
         <div className="relative mb-6">
-          <HiLockClosed className="absolute top-3 left-3 text-gray-400" size={20} />
+          <span className="absolute top-3 left-3 text-gray-400 text-xl">🔒</span>
           <input
             type="password"
             placeholder="Senha"
