@@ -2,116 +2,145 @@
 @tailwind components;
 @tailwind utilities;
 
-/* -------------------------------------------------------------------------- */
-/*  Base global                                                               */
-/* -------------------------------------------------------------------------- */
-
+/* =========================
+   Variáveis e cores globais
+   ========================= */
 :root {
-  --radius: 0.75rem;
+  --color-bg: #f5f6fa;
+  --color-text: #1f2937;
+  --color-card: #ffffff;
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-secondary: #f59e0b;
 }
 
-html,
-body {
-  height: 100%;
+.dark {
+  --color-bg: #1f2937;
+  --color-text: #f5f6fa;
+  --color-card: #2c2f3b;
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-secondary: #f59e0b;
 }
 
+/* =========================
+   Reset global
+   ========================= */
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
   font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   margin: 0;
   padding: 0;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Suavização adicional */
-* {
-  @apply box-border;
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Tipografia                                                                */
-/* -------------------------------------------------------------------------- */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply font-semibold text-slate-900 tracking-tight;
-}
-
-p {
-  @apply text-slate-600 leading-relaxed;
-}
-
-/* Links */
+/* =========================
+   Links
+   ========================= */
 a {
-  @apply text-blue-600 hover:text-blue-700 transition-colors;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Formulários                                                               */
-/* -------------------------------------------------------------------------- */
-
-input,
-textarea,
-select {
-  @apply border border-slate-300 rounded-lg px-3 py-2 text-slate-800
-         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-         transition-all duration-200;
+a:hover {
+  color: var(--color-primary-hover);
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Botões Globais                                                            */
-/* -------------------------------------------------------------------------- */
+/* =========================
+   Headings
+   ========================= */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: var(--color-text);
+}
 
+/* =========================
+   Botões globais
+   ========================= */
 button {
-  @apply rounded-lg px-4 py-2 font-medium transition-all duration-300;
+  @apply transition-colors duration-300 ease-in-out rounded-xl font-semibold shadow-md;
 }
 
 button:hover {
-  @apply opacity-90;
+  @apply shadow-xl;
 }
 
-/* Botões variantes utilitárias */
-.btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700;
+button.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
 }
 
-.btn-secondary {
-  @apply bg-slate-200 text-slate-800 hover:bg-slate-300;
+button.btn-primary:hover {
+  background-color: var(--color-primary-hover);
 }
 
-.btn-danger {
-  @apply bg-red-600 text-white hover:bg-red-700;
+button.btn-secondary {
+  background-color: var(--color-secondary);
+  color: white;
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Layout & Utilidades extras                                                */
-/* -------------------------------------------------------------------------- */
+button.btn-secondary:hover {
+  @apply brightness-90;
+}
 
+/* =========================
+   Inputs e Textareas
+   ========================= */
+input, textarea {
+  @apply border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300;
+}
+
+.dark input, .dark textarea {
+  @apply bg-gray-700 border-gray-600 text-white;
+}
+
+/* =========================
+   Cards
+   ========================= */
 .card {
-  @apply bg-white shadow-sm rounded-xl p-6 border border-slate-200;
+  background-color: var(--color-card);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
 }
 
-.container {
-  @apply max-w-7xl mx-auto px-4;
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* Scrollbar premium */
-::-webkit-scrollbar {
-  width: 8px;
+/* =========================
+   Animations
+   ========================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-::-webkit-scrollbar-track {
-  @apply bg-slate-100;
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full;
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-400;
+.animate-fadeIn { animation: fadeIn 0.5s ease forwards; }
+.animate-slideInRight { animation: slideInRight 0.5s ease forwards; }
+.animate-pulseSoft { animation: pulseSoft 1.5s infinite ease-in-out; }
+
+/* =========================
+   Misc Global
+   ========================= */
+* {
+  box-sizing: border-box;
 }
+
+p, span {
+  line-height: 1.5;
+  }
