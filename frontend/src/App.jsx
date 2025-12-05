@@ -1,36 +1,52 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import DashboardPage from "./pages/DashboardPage";
-
-// Componente de rota protegida
-const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem("token"); // pode substituir depois por contexto/Zustand
-
-  return isAuthenticated ? children : <Navigate to="/" replace />;
-};
+import { Routes, Route } from 'react-router-dom';
+import DashboardPage from './pages/DashboardPage.jsx';
+import Profile from './pages/Profile.jsx';
+import Settings from './pages/Settings.jsx';
+import Login from './pages/Login.jsx';
+import Signup from './pages/Signup.jsx';
+import Layout from './components/Layout.jsx';
+import useAuth from './hooks/useAuth.js';
+import Notifications from './components/Notifications.jsx';
 
 function App() {
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <Routes>
+  // Hook de autenticação global
+  const loading = useAuth();
 
-        {/* Auth */}
+  if (loading) return <p className="text-center mt-20 text-gray-500">Carregando...</p>;
+
+  return (
+    <>
+      <Notifications /> {/* Notificações globais */}
+      <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
-        {/* Dashboard protegido */}
+        {/* Rotas protegidas com Layout */}
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
+            <Layout>
               <DashboardPage />
-            </ProtectedRoute>
+            </Layout>
           }
         />
-
+        <Route
+          path="/profile"
+          element={
+            <Layout>
+              <Profile />
+            </Layout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <Layout>
+              <Settings />
+            </Layout>
+          }
+        />
       </Routes>
-    </div>
+    </>
   );
 }
 
