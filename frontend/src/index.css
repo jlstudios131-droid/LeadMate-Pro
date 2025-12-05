@@ -2,48 +2,116 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global Styles */
+/* -------------------------------------------------------------------------- */
+/*  Base global                                                               */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --radius: 0.75rem;
+}
+
+html,
 body {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #f5f6fa 0%, #e0e4ff 100%);
   margin: 0;
   padding: 0;
-  color: #1f2937; /* texto padrão escuro */
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* Suavização adicional */
+* {
+  @apply box-border;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Tipografia                                                                */
+/* -------------------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-semibold text-slate-900 tracking-tight;
+}
+
+p {
+  @apply text-slate-600 leading-relaxed;
 }
 
 /* Links */
 a {
-  color: #3b82f6; /* azul Tailwind */
-  text-decoration: none;
-  transition: color 0.3s ease;
+  @apply text-blue-600 hover:text-blue-700 transition-colors;
 }
 
-a:hover {
-  color: #2563eb; /* azul mais escuro no hover */
+/* -------------------------------------------------------------------------- */
+/*  Formulários                                                               */
+/* -------------------------------------------------------------------------- */
+
+input,
+textarea,
+select {
+  @apply border border-slate-300 rounded-lg px-3 py-2 text-slate-800
+         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+         transition-all duration-200;
 }
 
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  color: #111827;
-}
+/* -------------------------------------------------------------------------- */
+/*  Botões Globais                                                            */
+/* -------------------------------------------------------------------------- */
 
-/* Buttons globais */
 button {
-  @apply transition-colors duration-300 ease-in-out rounded-md;
+  @apply rounded-lg px-4 py-2 font-medium transition-all duration-300;
 }
 
 button:hover {
-  @apply bg-blue-600 text-white;
+  @apply opacity-90;
 }
 
-/* Inputs e Textareas */
-input, textarea {
-  @apply border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400;
+/* Botões variantes utilitárias */
+.btn-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700;
 }
 
-/* Pequeno reset extra */
-* {
-  box-sizing: border-box;
-  }
+.btn-secondary {
+  @apply bg-slate-200 text-slate-800 hover:bg-slate-300;
+}
+
+.btn-danger {
+  @apply bg-red-600 text-white hover:bg-red-700;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Layout & Utilidades extras                                                */
+/* -------------------------------------------------------------------------- */
+
+.card {
+  @apply bg-white shadow-sm rounded-xl p-6 border border-slate-200;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+/* Scrollbar premium */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
