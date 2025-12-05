@@ -4,6 +4,7 @@ import LeadCard from './LeadCard.jsx';
 
 const Dashboard = () => {
   const [leads, setLeads] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchLeads = async () => {
     try {
@@ -11,6 +12,8 @@ const Dashboard = () => {
       setLeads(res.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -19,11 +22,20 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <div>
-        {leads.length > 0 ? leads.map((lead) => <LeadCard key={lead.id} lead={lead} />) : <p>No leads yet</p>}
-      </div>
+    <div className="p-6 md:p-10">
+      <h1 className="text-3xl font-extrabold mb-6 text-gray-800">Dashboard</h1>
+
+      {loading ? (
+        <p className="text-gray-500 text-center mt-10 animate-pulse">Carregando leads...</p>
+      ) : leads.length > 0 ? (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {leads.map((lead) => (
+            <LeadCard key={lead.id} lead={lead} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-400 text-center mt-10">Nenhum lead encontrado. Comece a adicionar novos leads!</p>
+      )}
     </div>
   );
 };
