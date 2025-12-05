@@ -1,22 +1,45 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxRuntime: 'automatic'
+    })
+  ],
 
   server: {
     port: 3000,
-    open: true
+    open: true,
+    cors: true
   },
 
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    minify: 'esbuild',
+    chunkSizeWarningLimit: 900,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          charts: ['recharts'],
+          motion: ['framer-motion']
+        }
+      }
+    }
   },
 
   resolve: {
     alias: {
-      '@': '/src',
-    },
-  },
+      '@': path.resolve(__dirname, 'src'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@store': path.resolve(__dirname, 'src/store'),
+      '@utils': path.resolve(__dirname, 'src/utils')
+    }
+  }
 });
