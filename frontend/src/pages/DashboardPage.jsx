@@ -9,14 +9,19 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) navigate('/login');
+    if (!token) navigate('/');
     else setAuthToken(token);
   }, []);
 
   return (
-    <div>
-      <Navbar />
-      <Dashboard />
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 transition-all">
+      {/* Navbar fixo com sombra sutil */}
+      <Navbar className="shadow-md" />
+
+      {/* Conteúdo do Dashboard com padding e animação */}
+      <main className="p-6 md:p-10 animate-fadeIn">
+        <Dashboard />
+      </main>
     </div>
   );
 };
