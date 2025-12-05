@@ -1,0 +1,36 @@
+/* Suporte dark/light mode global */
+:root {
+  --color-bg: #f5f6fa;
+  --color-text: #1f2937;
+  --color-card: #ffffff;
+  --color-primary: #6366f1;
+}
+
+.dark {
+  --color-bg: #1f2937;
+  --color-text: #f5f6fa;
+  --color-card: #2c2f3b;
+  --color-primary: #6366f1;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.card {
+  background-color: var(--color-card);
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #4f46e5;
+}
