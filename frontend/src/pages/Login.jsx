@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient, { setAuthToken } from '../api/apiClient.js';
+import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,23 +10,32 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!email || !password) {
-      alert('Preencha todos os campos!');
+    if (!email.trim() || !password.trim()) {
+      alert('Preencha todos os campos.');
       return;
     }
 
     try {
       setLoading(true);
-      const res = await apiClient.post('/auth/login', { email, password });
+
+      const res = await apiClient.post('/auth/login', {
+        email: email.trim(),
+        password: password.trim(),
+      });
+
       const { token } = res.data;
+      if (!token) {
+        alert('Token inválido retornado pelo servidor.');
+        return;
+      }
 
       localStorage.setItem('token', token);
       setAuthToken(token);
 
       navigate('/dashboard');
-    } catch (err) {
-      console.error('Login failed', err);
-      alert('Erro no login. Verifica credenciais ou consola do servidor.');
+    } catch (error) {
+      console.error('Erro no login:', error);
+      alert('Falha no login. Verifique credenciais ou o backend.');
     } finally {
       setLoading(false);
     }
@@ -34,43 +44,52 @@ const Login = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-100 to-blue-50 p-4">
       <div className="bg-white shadow-2xl rounded-2xl max-w-md w-full p-8 animate-fadeIn">
-        <h2 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">Bem-vindo ao LeadMe Pro</h2>
-        <p className="text-center text-gray-500 mb-8">Gerencie seus leads de forma inteligente e fácil</p>
+        <h2 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+          Bem-vindo ao LeadMe Pro
+        </h2>
 
-        {/* Input Email */}
+        <p className="text-center text-gray-500 mb-8">
+          Gerencie seus leads de forma inteligente e simples
+        </p>
+
+        {/* Email */}
         <div className="relative mb-4">
-          <span className="absolute top-3 left-3 text-gray-400 text-xl">📧</span>
+          <HiOutlineMail className="absolute top-3 left-3 text-gray-400" size={20} />
           <input
             type="email"
             placeholder="Email"
             className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-400 focus:outline-none transition"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
           />
         </div>
 
-        {/* Input Password */}
+        {/* Password */}
         <div className="relative mb-6">
-          <span className="absolute top-3 left-3 text-gray-400 text-xl">🔒</span>
+          <HiLockClosed className="absolute top-3 left-3 text-gray-400" size={20} />
           <input
             type="password"
             placeholder="Senha"
             className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-400 focus:outline-none transition"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
           />
         </div>
 
-        {/* Botão Login */}
+        {/* Botão */}
         <button
           onClick={handleLogin}
           disabled={loading}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2"
+          className={`w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2 ${
+            loading && 'opacity-70 cursor-not-allowed'
+          }`}
         >
           {loading ? 'Entrando...' : 'Login'}
         </button>
 
-        {/* Signup */}
+        {/* Criar conta */}
         <p className="text-center text-gray-500 mt-6">
           Ainda não tens conta?{' '}
           <button
