@@ -8,23 +8,27 @@ import Layout from './components/Layout.jsx';
 import useAuth from './hooks/useAuth.js';
 import Notifications from './components/Notifications.jsx';
 
-function App() {
+function App({ darkMode, toggleDarkMode }) {
   // Hook de autenticação global
   const loading = useAuth();
 
-  if (loading) return <p className="text-center mt-20 text-gray-500">Carregando...</p>;
+  if (loading)
+    return <p className="text-center mt-20 text-gray-500">Carregando...</p>;
 
   return (
     <>
-      <Notifications /> {/* Notificações globais */}
+      {/* Notificações globais */}
+      <Notifications darkMode={darkMode} />
+
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
         {/* Rotas protegidas com Layout */}
         <Route
           path="/dashboard"
           element={
-            <Layout>
+            <Layout darkMode={darkMode} toggleDarkMode={toggleDarkMode}>
               <DashboardPage />
             </Layout>
           }
@@ -32,7 +36,7 @@ function App() {
         <Route
           path="/profile"
           element={
-            <Layout>
+            <Layout darkMode={darkMode} toggleDarkMode={toggleDarkMode}>
               <Profile />
             </Layout>
           }
@@ -40,7 +44,7 @@ function App() {
         <Route
           path="/settings"
           element={
-            <Layout>
+            <Layout darkMode={darkMode} toggleDarkMode={toggleDarkMode}>
               <Settings />
             </Layout>
           }
