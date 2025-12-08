@@ -1,0 +1,100 @@
+/* =========================
+   Theme: Light & Dark
+   ========================= */
+
+/* Variáveis globais */
+:root {
+  --color-bg: #f5f6fa;
+  --color-text: #1f2937;
+  --color-card: #ffffff;
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-secondary: #f59e0b;
+}
+
+/* Dark Mode */
+.dark {
+  --color-bg: #1f2937;
+  --color-text: #f5f6fa;
+  --color-card: #2c2f3b;
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-secondary: #f59e0b;
+}
+
+/* Body */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Botões */
+button {
+  transition: all 0.3s ease-in-out;
+  border-radius: 1rem;
+  font-weight: 600;
+}
+
+button.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+button.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+button.btn-secondary {
+  background-color: var(--color-secondary);
+  color: #fff;
+}
+
+button.btn-secondary:hover {
+  filter: brightness(0.9);
+}
+
+/* Inputs */
+input, textarea, select {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.dark input, .dark textarea, .dark select {
+  background-color: #2c2f3b;
+  border-color: #4b5563;
+  color: #f5f6fa;
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-card);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
