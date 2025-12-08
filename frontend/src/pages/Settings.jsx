@@ -5,9 +5,9 @@ import apiClient from '../api/apiClient.js';
 const Settings = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    // Simulação: buscar preferências do usuário
     const fetchSettings = async () => {
       try {
         const res = await apiClient.get('/settings');
@@ -23,11 +23,14 @@ const Settings = () => {
 
   const handleSave = async () => {
     try {
+      setSaving(true);
       await apiClient.put('/settings', { notificationsEnabled });
       alert('Configurações salvas com sucesso!');
     } catch (err) {
       console.error(err);
       alert('Erro ao salvar configurações.');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -47,17 +50,22 @@ const Settings = () => {
           <span className="font-semibold text-gray-700 dark:text-gray-200">Notificações:</span>
           <input
             type="checkbox"
+            aria-label="Ativar ou desativar notificações"
             checked={notificationsEnabled}
             onChange={(e) => setNotificationsEnabled(e.target.checked)}
-            className="w-5 h-5 rounded"
+            className="w-5 h-5 rounded accent-indigo-600 dark:accent-indigo-400"
           />
         </div>
 
         <button
           onClick={handleSave}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-semibold transition"
+          disabled={saving}
+          aria-label="Salvar Configurações"
+          className={`w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-semibold transition ${
+            saving ? 'opacity-70 cursor-not-allowed' : ''
+          }`}
         >
-          Salvar Configurações
+          {saving ? 'Salvando...' : 'Salvar Configurações'}
         </button>
       </div>
     </div>
