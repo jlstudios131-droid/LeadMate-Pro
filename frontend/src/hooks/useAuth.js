@@ -7,14 +7,22 @@ const useAuth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/');
-    } else {
-      setAuthToken(token);
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        // Redireciona para login se não houver token
+        navigate('/', { replace: true });
+      } else {
+        // Define o token no axios
+        setAuthToken(token);
+      }
+
       setLoading(false);
-    }
-  }, []);
+    };
+
+    checkAuth();
+  }, [navigate]);
 
   return loading;
 };
