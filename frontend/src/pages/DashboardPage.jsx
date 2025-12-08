@@ -4,13 +4,13 @@ import GraphChart from '../components/GraphChart.jsx';
 import LeadCard from '../components/LeadCard.jsx';
 import ReferralModal from '../components/ReferralModal.jsx';
 import useFetch from '../hooks/useFetch.js';
+import { abbreviateName, formatDate } from '../utilis/formatters.js';
 
 const DashboardPage = () => {
   const [modalLeadId, setModalLeadId] = useState(null);
 
-  // Buscar leads
+  // Buscar leads e estatísticas
   const { data: leads = [], loading: leadsLoading } = useFetch('/leads');
-  // Buscar estatísticas
   const { data: stats = [], loading: statsLoading } = useFetch('/stats');
 
   return (
@@ -41,7 +41,13 @@ const DashboardPage = () => {
           leads.length > 0 ? (
             leads.map((lead) => (
               <div key={lead.id} className="relative">
-                <LeadCard lead={lead} />
+                <LeadCard
+                  lead={{
+                    ...lead,
+                    name: abbreviateName(lead.name),
+                    createdAt: formatDate(lead.createdAt),
+                  }}
+                />
                 <button
                   onClick={() => setModalLeadId(lead.id)}
                   disabled={leadsLoading}
