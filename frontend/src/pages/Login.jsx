@@ -17,7 +17,6 @@ const Login = () => {
 
     try {
       setLoading(true);
-
       const res = await apiClient.post('/auth/login', {
         email: email.trim(),
         password: password.trim(),
@@ -47,7 +46,6 @@ const Login = () => {
         <h2 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">
           Bem-vindo ao LeadMe Pro
         </h2>
-
         <p className="text-center text-gray-500 mb-8">
           Gerencie seus leads de forma inteligente e simples
         </p>
@@ -58,6 +56,7 @@ const Login = () => {
           <input
             type="email"
             placeholder="Email"
+            aria-label="Email"
             className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-400 focus:outline-none transition"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -71,6 +70,7 @@ const Login = () => {
           <input
             type="password"
             placeholder="Senha"
+            aria-label="Senha"
             className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-400 focus:outline-none transition"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -82,8 +82,9 @@ const Login = () => {
         <button
           onClick={handleLogin}
           disabled={loading}
+          aria-label="Login"
           className={`w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2 ${
-            loading && 'opacity-70 cursor-not-allowed'
+            loading ? 'opacity-70 cursor-not-allowed' : ''
           }`}
         >
           {loading ? 'Entrando...' : 'Login'}
