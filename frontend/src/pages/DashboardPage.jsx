@@ -4,7 +4,7 @@ import GraphChart from '../components/GraphChart.jsx';
 import LeadCard from '../components/LeadCard.jsx';
 import ReferralModal from '../components/ReferralModal.jsx';
 import useFetch from '../hooks/useFetch.js';
-import { abbreviateName, formatDate } from '../utilis/formatters.js';
+import { abbreviateName, formatDate } from '../utils/formatters.js';
 
 const DashboardPage = () => {
   const [modalLeadId, setModalLeadId] = useState(null);
