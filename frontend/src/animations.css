@@ -1,0 +1,45 @@
+/* =========================
+   Animações Globais
+   ========================= */
+
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Slide In Right */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-slideInRight {
+  animation: slideInRight 0.5s ease forwards;
+}
+
+/* Pulse Soft */
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-pulseSoft {
+  animation: pulseSoft 1.5s infinite ease-in-out;
+}
+
+/* Bounce Up */
+@keyframes bounceUp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-bounceUp {
+  animation: bounceUp 1s infinite ease-in-out;
+}
+
+/* Smooth Scale Hover */
+.animate-scaleHover:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
