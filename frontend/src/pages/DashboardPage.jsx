@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import StatsCard from '../components/StatsCard.jsx';
 import GraphChart from '../components/GraphChart.jsx';
 import LeadCard from '../components/LeadCard.jsx';
 import ReferralModal from '../components/ReferralModal.jsx';
-import apiClient from '../api/apiClient.js';
 import useFetch from '../hooks/useFetch.js';
 
 const DashboardPage = () => {
@@ -18,9 +17,13 @@ const DashboardPage = () => {
     <div className="space-y-8 animate-fadeIn">
       {/* Estatísticas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {!statsLoading
-          ? stats.map((s) => <StatsCard key={s.title} title={s.title} value={s.value} />)
-          : <p className="text-gray-500 col-span-3 text-center">Carregando métricas...</p>}
+        {!statsLoading ? (
+          stats.map((s, index) => (
+            <StatsCard key={`${s.title}-${index}`} title={s.title} value={s.value} />
+          ))
+        ) : (
+          <p className="text-gray-500 col-span-3 text-center">Carregando métricas...</p>
+        )}
       </div>
 
       {/* Gráfico principal */}
@@ -41,17 +44,20 @@ const DashboardPage = () => {
                 <LeadCard lead={lead} />
                 <button
                   onClick={() => setModalLeadId(lead.id)}
-                  className="mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition shadow-md hover:shadow-xl"
+                  disabled={leadsLoading}
+                  className={`mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition shadow-md hover:shadow-xl ${
+                    leadsLoading ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
                 >
                   Enviar Referral
                 </button>
               </div>
             ))
           ) : (
-            <p className="text-gray-500">Nenhum lead disponível.</p>
+            <p className="text-gray-500 text-center">Nenhum lead disponível.</p>
           )
         ) : (
-          <p className="text-gray-500">Carregando leads...</p>
+          <p className="text-gray-500 text-center">Carregando leads...</p>
         )}
       </div>
 
