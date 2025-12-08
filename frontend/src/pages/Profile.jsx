@@ -6,6 +6,7 @@ import ThemeToggle from '../components/ThemeToggle.jsx';
 const Profile = () => {
   const [user, setUser] = useState({ name: '', email: '', createdAt: '' });
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
 
   const fetchProfile = async () => {
     try {
@@ -21,11 +22,14 @@ const Profile = () => {
 
   const handleUpdate = async () => {
     try {
-      await apiClient.put('/auth/me', { name: user.name, email: user.email });
+      setUpdating(true);
+      await apiClient.put('/auth/me', { name: user.name.trim(), email: user.email.trim() });
       alert('Perfil atualizado com sucesso!');
     } catch (err) {
       console.error(err);
       alert('Erro ao atualizar perfil.');
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -49,6 +53,7 @@ const Profile = () => {
           <label className="block font-medium text-gray-700 dark:text-gray-200">Nome</label>
           <input
             type="text"
+            aria-label="Nome"
             value={user.name}
             onChange={(e) => setUser({ ...user, name: e.target.value })}
             className="w-full p-2 border rounded-md focus:ring-2 focus:ring-indigo-400 dark:bg-gray-600 dark:border-gray-500 text-white"
@@ -57,6 +62,7 @@ const Profile = () => {
           <label className="block font-medium text-gray-700 dark:text-gray-200">Email</label>
           <input
             type="email"
+            aria-label="Email"
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
             className="w-full p-2 border rounded-md focus:ring-2 focus:ring-indigo-400 dark:bg-gray-600 dark:border-gray-500 text-white"
@@ -73,13 +79,17 @@ const Profile = () => {
 
         <button
           onClick={handleUpdate}
-          className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-semibold transition"
+          disabled={updating}
+          aria-label="Atualizar Perfil"
+          className={`mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-semibold transition ${
+            updating ? 'opacity-70 cursor-not-allowed' : ''
+          }`}
         >
-          Atualizar Perfil
+          {updating ? 'Atualizando...' : 'Atualizar Perfil'}
         </button>
       </div>
     </div>
   );
 };
 
-export default Profile;          
+export default Profile;
