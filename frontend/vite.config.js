@@ -25,7 +25,6 @@ export default defineConfig({
         manualChunks: {
           react: ['react', 'react-dom'],
           router: ['react-router-dom'],
-          charts: ['recharts'],
           motion: ['framer-motion']
         }
       }
