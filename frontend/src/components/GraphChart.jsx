@@ -1,61 +1,102 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
   Tooltip,
-  ResponsiveContainer,
-  Area,
-  AreaChart
-} from "recharts";
+  Filler,
+  Legend,
+} from "chart.js";
+
+// Registrar módulos do Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+);
 
 const GraphChart = ({ title, labels, data }) => {
-  // Converte labels e values em formato Recharts
-  const chartData = labels.map((label, index) => ({
-    name: label,
-    value: data[index],
-  }));
+  const chartRef = useRef(null);
+  const [gradient, setGradient] = useState(null);
+
+  // Criar gradiente suave
+  useEffect(() => {
+    const chart = chartRef.current;
+
+    if (!chart) return;
+    const ctx = chart.ctx;
+
+    const gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
+    gradientFill.addColorStop(0, "rgba(99, 102, 241, 0.35)");
+    gradientFill.addColorStop(1, "rgba(99, 102, 241, 0.05)");
+
+    setGradient(gradientFill);
+  }, [data]);
+
+  // Estrutura dos dados Chart.js
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: title,
+        data,
+        fill: true,
+        backgroundColor: gradient,
+        borderColor: "rgba(99, 102, 241, 1)",
+        pointBackgroundColor: "rgba(99, 102, 241, 1)",
+        pointRadius: 4,
+        borderWidth: 2,
+        tension: 0.4,
+      },
+    ],
+  };
+
+  // Configurações visuais
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: title,
+        color: "#6366f1",
+        font: { size: 18, weight: "600" },
+        padding: { top: 10, bottom: 20 },
+      },
+      tooltip: {
+        backgroundColor: "#1f2937",
+        titleColor: "#fff",
+        bodyColor: "#fff",
+        borderWidth: 0,
+        cornerRadius: 8,
+        padding: 12,
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: "#6b7280" },
+        grid: { color: "rgba(200,200,200,0.2)" },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: { color: "#6b7280" },
+        grid: { color: "rgba(200,200,200,0.2)" },
+      },
+    },
+  };
 
   return (
-    <div className="bg-white dark:bg-gray-700 p-4 rounded-2xl shadow-lg transition-colors duration-500">
-      <h2 className="text-lg font-semibold text-indigo-600 dark:text-indigo-300 mb-3">
-        {title}
-      </h2>
-
-      <ResponsiveContainer width="100%" height={300}>
-        <AreaChart data={chartData}>
-          <defs>
-            <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4}/>
-              <stop offset="95%" stopColor="#6366f1" stopOpacity={0.05}/>
-            </linearGradient>
-          </defs>
-
-          <CartesianGrid strokeDasharray="3 3" stroke="#d1d5db" opacity={0.4} />
-          <XAxis dataKey="name" stroke="#6b7280" />
-          <YAxis stroke="#6b7280" />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#1f2937",
-              borderRadius: "8px",
-              border: "none",
-            }}
-            itemStyle={{ color: "#f5f6fa" }}
-            labelStyle={{ color: "#f5f6fa" }}
-          />
-
-          <Area
-            type="monotone"
-            dataKey="value"
-            stroke="#6366f1"
-            strokeWidth={2}
-            fill="url(#colorValue)"
-            dot={{ r: 4, stroke: "#6366f1", strokeWidth: 2 }}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+    <div className="bg-white dark:bg-gray-700 p-4 rounded-2xl shadow-lg transition-colors duration-300">
+      <Line ref={chartRef} data={chartData} options={options} />
     </div>
   );
 };
