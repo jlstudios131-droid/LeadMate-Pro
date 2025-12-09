@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import apiClient from '../api/apiClient.js';
+import apiClient, { setAuthToken } from '../api/apiClient.js';
+import { toast } from 'react-hot-toast';
 
 const useFetch = (url, options = {}) => {
   const [data, setData] = useState(null);
@@ -14,10 +15,27 @@ const useFetch = (url, options = {}) => {
       setError(null);
 
       try {
+        // Se existir token, define globalmente
+        const token = localStorage.getItem('token');
+        if (token) setAuthToken(token);
+
         const res = await apiClient.get(url, options);
+
         if (isMounted) setData(res.data);
       } catch (err) {
-        if (isMounted) setError(err);
+        if (isMounted) {
+          setError(err);
+
+          // Tratamento premium para token expirado
+          if (err.response?.status === 401) {
+            localStorage.removeItem('token');
+            setAuthToken(null);
+            toast.error('Sessão expirada. Faça login novamente.');
+            window.location.href = '/';
+          } else {
+            toast.error('Erro ao carregar dados.');
+          }
+        }
       } finally {
         if (isMounted) setLoading(false);
       }
