@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 /* ========================================
-   Variáveis globais (Light e Dark Mode)
+   Tema Global com CSS Variables
+   (Light e Dark Mode)
 ======================================== */
 :root {
   --color-bg: #f5f6fa;
@@ -28,10 +29,11 @@
 }
 
 /* ========================================
-   Reset
+   Reset Geral
 ======================================== */
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; /* Melhor para mobile */
 }
 
 body {
@@ -40,7 +42,14 @@ body {
   color: var(--color-text);
   margin: 0;
   padding: 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Remove highlight azul nos botões no mobile */
+button,
+input,
+textarea {
+  -webkit-touch-callout: none;
 }
 
 /* ========================================
@@ -48,7 +57,7 @@ body {
 ======================================== */
 a {
   color: var(--color-primary);
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 a:hover {
@@ -73,21 +82,21 @@ button:hover {
   @apply shadow-xl;
 }
 
-button.btn-primary {
+.btn-primary {
   background-color: var(--color-primary);
-  color: white;
+  color: #ffffff;
 }
 
-button.btn-primary:hover {
+.btn-primary:hover {
   background-color: var(--color-primary-hover);
 }
 
-button.btn-secondary {
+.btn-secondary {
   background-color: var(--color-secondary);
-  color: white;
+  color: #ffffff;
 }
 
-button.btn-secondary:hover {
+.btn-secondary:hover {
   @apply brightness-90;
 }
 
@@ -96,7 +105,8 @@ button.btn-secondary:hover {
 ======================================== */
 input,
 textarea {
-  @apply border border-gray-300 rounded-md p-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400;
+  @apply border border-gray-300 rounded-md p-2 transition-all duration-300 
+         focus:outline-none focus:ring-2 focus:ring-indigo-400;
 }
 
 .dark input,
@@ -112,7 +122,7 @@ textarea {
   padding: 1.5rem;
   border-radius: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover {
@@ -121,7 +131,7 @@ textarea {
 }
 
 /* ========================================
-   Global Text
+   Textos Gerais
 ======================================== */
 p,
 span {
