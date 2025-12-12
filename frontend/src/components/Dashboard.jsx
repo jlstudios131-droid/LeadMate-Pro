@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import apiClient from '../api/apiClient.js';
-import LeadCard from './LeadCard.jsx';
+import React, { useEffect, useState } from "react";
+import apiClient from "../api/apiClient.js";
+import LeadCard from "./LeadCard.jsx";
+import { motion } from "framer-motion";
 
 const Dashboard = () => {
   const [leads, setLeads] = useState([]);
@@ -9,10 +10,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const res = await apiClient.get('/leads');
-        setLeads(res.data || []);
-      } catch (err) {
-        console.error('Erro ao buscar leads:', err);
+        const response = await apiClient.get("/leads");
+        setLeads(response.data || []);
+      } catch (error) {
+        console.error("Erro ao buscar leads:", error);
       } finally {
         setLoading(false);
       }
@@ -24,27 +25,57 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="p-6 md:p-10 flex justify-center items-center min-h-[60vh]">
-        <p className="text-gray-500 animate-pulse text-lg">Carregando leads...</p>
+        <p className="text-gray-500 dark:text-gray-300 animate-pulse text-lg">
+          Carregando leads...
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 md:p-10 space-y-6">
-      <h1 className="text-3xl font-extrabold text-gray-800 dark:text-gray-100">
+    <div className="p-6 md:p-10 space-y-8">
+      {/* Título animado */}
+      <motion.h1
+        className="text-3xl font-extrabold text-gray-800 dark:text-gray-100"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         Dashboard
-      </h1>
+      </motion.h1>
 
+      {/* Estado vazio */}
       {leads.length === 0 ? (
-        <p className="text-gray-400 dark:text-gray-300 text-center mt-10">
+        <motion.p
+          className="text-gray-400 dark:text-gray-300 text-center mt-10 text-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           Nenhum lead encontrado. Comece a adicionar novos leads!
-        </p>
+        </motion.p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        // Grid de cards com animação suave
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.07, delayChildren: 0.1 },
+            },
+          }}
+        >
           {leads.map((lead) => (
-            <LeadCard key={lead.id} lead={lead} />
+            <motion.div
+              key={lead.id}
+              variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }}
+            >
+              <LeadCard lead={lead} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </div>
   );
