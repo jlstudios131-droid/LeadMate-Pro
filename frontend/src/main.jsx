@@ -10,58 +10,52 @@ import './styles/animations.css';
 import { Toaster } from 'react-hot-toast';
 
 const Root = () => {
-  // Estado para dark mode
+  // Tema inicial: localStorage → preferência do sistema → fallback
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Detecta preferência do usuário ou localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) return savedTheme === 'dark';
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved === 'dark';
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // Atualiza a classe dark no body
+  // Sincroniza com Tailwind e localStorage
   useEffect(() => {
-    const root = document.documentElement;
-    if (isDarkMode) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    const html = document.documentElement;
+    if (isDarkMode) html.classList.add('dark');
+    else html.classList.remove('dark');
+
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
-  // Função para alternar tema
   const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
 
   return (
-    <>
-      <BrowserRouter>
-        <App darkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+    <BrowserRouter>
+      <App darkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
 
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            className: 'rounded-xl shadow-lg',
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          className: 'rounded-xl shadow-lg border border-black/10 dark:border-white/10',
+          style: {
+            background: isDarkMode ? '#1e293b' : '#ffffff',
+            color: isDarkMode ? '#f1f5f9' : '#0f172a',
+            fontWeight: 500,
+          },
+          success: {
             style: {
-              background: isDarkMode ? '#1f2937' : '#f5f6fa',
-              color: isDarkMode ? '#f5f6fa' : '#1f2937',
-              fontWeight: 500,
+              background: '#14532d',
+              color: '#d1fae5',
             },
-            success: {
-              style: {
-                background: '#14532d',
-                color: '#e8fae6',
-              },
+          },
+          error: {
+            style: {
+              background: '#7f1d1d',
+              color: '#fee2e2',
             },
-            error: {
-              style: {
-                background: '#7f1d1d',
-                color: '#fee2e2',
-              },
-            },
-          }}
-        />
-      </BrowserRouter>
-    </>
+          },
+        }}
+      />
+    </BrowserRouter>
   );
 };
 
