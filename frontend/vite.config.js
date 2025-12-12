@@ -17,16 +17,16 @@ export default defineConfig({
 
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false, // mais leve no deploy
     minify: 'esbuild',
-    chunkSizeWarningLimit: 900,
+    chunkSizeWarningLimit: 1000,
+
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          motion: ['framer-motion']
-        }
+        // chunking premium e seguro para produção
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
       }
     }
   },
@@ -40,5 +40,15 @@ export default defineConfig({
       '@store': fileURLToPath(new URL('./src/store', import.meta.url)),
       '@utils': fileURLToPath(new URL('./src/utils', import.meta.url))
     }
+  },
+
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'framer-motion',
+      'react-hot-toast'
+    ]
   }
 })
