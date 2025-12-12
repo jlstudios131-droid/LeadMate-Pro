@@ -12,7 +12,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Registrar módulos do Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,21 +27,21 @@ const GraphChart = ({ title, labels, data }) => {
   const chartRef = useRef(null);
   const [gradient, setGradient] = useState(null);
 
-  // Criar gradiente suave
   useEffect(() => {
-    const chart = chartRef.current;
+    const chartInstance = chartRef.current;
 
-    if (!chart) return;
-    const ctx = chart.ctx;
+    if (!chartInstance) return;
 
-    const gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
+    const ctx = chartInstance.canvas.getContext("2d");
+    const height = chartInstance.canvas.height;
+
+    const gradientFill = ctx.createLinearGradient(0, 0, 0, height);
     gradientFill.addColorStop(0, "rgba(99, 102, 241, 0.35)");
     gradientFill.addColorStop(1, "rgba(99, 102, 241, 0.05)");
 
     setGradient(gradientFill);
-  }, [data]);
+  }, [labels, data]);
 
-  // Estrutura dos dados Chart.js
   const chartData = {
     labels,
     datasets: [
@@ -60,9 +59,9 @@ const GraphChart = ({ title, labels, data }) => {
     ],
   };
 
-  // Configurações visuais
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       title: {
@@ -73,7 +72,7 @@ const GraphChart = ({ title, labels, data }) => {
         padding: { top: 10, bottom: 20 },
       },
       tooltip: {
-        backgroundColor: "#1f2937",
+        backgroundColor: "rgba(31, 41, 55, 0.9)",
         titleColor: "#fff",
         bodyColor: "#fff",
         borderWidth: 0,
@@ -84,18 +83,18 @@ const GraphChart = ({ title, labels, data }) => {
     scales: {
       x: {
         ticks: { color: "#6b7280" },
-        grid: { color: "rgba(200,200,200,0.2)" },
+        grid: { color: "rgba(200, 200, 200, 0.15)" },
       },
       y: {
         beginAtZero: true,
         ticks: { color: "#6b7280" },
-        grid: { color: "rgba(200,200,200,0.2)" },
+        grid: { color: "rgba(200, 200, 200, 0.15)" },
       },
     },
   };
 
   return (
-    <div className="bg-white dark:bg-gray-700 p-4 rounded-2xl shadow-lg transition-colors duration-300">
+    <div className="bg-white dark:bg-gray-700 p-4 rounded-2xl shadow-lg transition-colors duration-300 h-72">
       <Line ref={chartRef} data={chartData} options={options} />
     </div>
   );
