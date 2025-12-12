@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Title -->
     <title>LeadMe Pro — Plataforma Inteligente de Gestão de Leads</title>
 
-    <!-- Favicon (pode substituir quando tiver o seu logo) -->
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- SEO básico -->
-    <meta name="description" content="LeadMe Pro — Plataforma inteligente de gestão e automação de leads para empresas modernas." />
+    <meta
+      name="description"
+      content="LeadMe Pro — Plataforma inteligente de gestão e automação de leads para empresas."
+    />
 
-    <!-- Fonte premium (Inter) -->
+    <!-- Font Inter (premium e leve) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -21,11 +21,22 @@
       rel="stylesheet"
     />
 
-    <!-- Cor do navegador para mobile -->
-    <meta name="theme-color" content="#0f172a" />
+    <!-- Mobile theme color (melhorado para dark elegante) -->
+    <meta name="theme-color" content="#1a1c23" />
+
+    <!-- Melhor pré-carregamento para performance -->
+    <link rel="preload" href="/src/main.jsx" as="script" />
+
+    <!-- OpenGraph para compartilhamento -->
+    <meta property="og:title" content="LeadMe Pro" />
+    <meta property="og:description" content="Gestão e automação de leads para empresas modernas." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/cover.png" />
   </head>
 
-  <body class="h-full bg-slate-50 text-slate-900 antialiased">
+  <body
+    class="h-full bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased"
+  >
     <div id="root"></div>
 
     <script type="module" src="/src/main.jsx"></script>
